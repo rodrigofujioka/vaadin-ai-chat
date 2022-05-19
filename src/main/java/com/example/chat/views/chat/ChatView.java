@@ -14,7 +14,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.spring.scopes.VaadinUIScope;
 import org.alicebot.ab.Bot;
-import org.alicebot.ab.Chat;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.vaadin.artur.Avataaar;
@@ -34,15 +33,15 @@ public class ChatView extends VerticalLayout {
     private final UI ui;
     private final MessageList messageList = new MessageList();
     private final TextField message = new TextField();
-    private final Chat chatSession;
+    private final ChatIesp chatSession;
     private final ScheduledExecutorService executorService;
 
     public ChatView(Bot alice, ScheduledExecutorService executorService) {
         this.executorService = executorService;
         ui = UI.getCurrent();
-        chatSession = new Chat(alice);
+        chatSession = new ChatIesp(alice);
 
-        message.setPlaceholder("Enter a message...");
+        message.setPlaceholder("Digite a opção ou a palavra menu para exibir as opções");
         message.setSizeFull();
 
         Button send = new Button(VaadinIcon.ENTER.create(), event -> sendMessage());
@@ -58,6 +57,7 @@ public class ChatView extends VerticalLayout {
 
     private void sendMessage() {
         String text = message.getValue();
+
         messageList.addMessage("You", new Avataaar("Name"), text, true);
         message.clear();
 
